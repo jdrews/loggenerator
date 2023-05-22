@@ -4,6 +4,7 @@ import (
 	"math/rand"
 	"strings"
 	"time"
+	"unicode"
 )
 
 var lipsumwords = []string{"a", "ac", "accumsan", "ad", "adipiscing", "aenean", "aliquam", "aliquet",
@@ -94,13 +95,13 @@ func SentenceFragment() string {
 // Sentence constructs a full sentence, with fragments connected by commas, capitalization, and proper punctuation.
 // Example: "Non ridiculus integer iaculis iaculis, consectetur dapibus consectetur viverra!"
 func Sentence() string {
-	s := strings.Title(RandomWord()) + " "
+	s := CapitalizeFirstLetter(RandomWord()) + " "
 	if rand.Intn(2) == 0 {
 		for i := 0; i < rand.Intn(3); i++ {
 			s += SentenceFragment() + ", "
 		}
 	}
-	return SentenceFragment() + RandomPunctuation()
+	return s + SentenceFragment() + RandomPunctuation()
 }
 
 // Sentences returns a string of count sentences
@@ -115,7 +116,14 @@ func Sentences(count int) string {
 
 // Paragraph returns a series of sentences to reasonably create a paragraph
 // Most paragraphs at least have two sentences
-// A large paragraph could have around 12
+// A large paragraph could have around 12 sentences
 func Paragraph() string {
 	return Sentences(rand.Intn(10) + 2)
+}
+
+// CapitalizeFirstLetter takes in a string and capitalizes the first letter of the string
+func CapitalizeFirstLetter(word string) string {
+	runes := []rune(word)
+	runes[0] = unicode.ToUpper(runes[0])
+	return string(runes)
 }
