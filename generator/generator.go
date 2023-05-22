@@ -39,30 +39,42 @@ var punctuation = []string{".", "?", "!"}
 // var severity = []string{"ERROR", "WARN", "INFO", "DEBUG", "TRACE", ""}
 var severity = []string{"INFO", "DEBUG", "TRACE"} // NOTE: This is the pretty view (everything alright! No problems!)
 
+// Initialize must be called first before using this generator
 func Initialize() {
 	rand.Seed(time.Now().Unix())
 }
 
+// SetPositiveSeveritiesOnly forces the severity level of log lines to not have any errors or warnings
+// This is the pretty view (everything alright! No problems!)
 func SetPositiveSeveritiesOnly() {
 	severity = []string{"INFO", "DEBUG", "TRACE"}
 }
 
+// SetAllSeverities opens up the log lines to have all possible severity types
 func SetAllSeverities() {
 	severity = []string{"ERROR", "WARN", "INFO", "DEBUG", "TRACE", ""}
 }
 
+// RandomSeverity returns a random severity level
+// Examples could be ERROR or INFO
 func RandomSeverity() string {
 	return severity[rand.Intn(len(severity))]
 }
 
+// RandomWord returns a random lorem ipsum word
+// Examples could be "varius" or "hendrerit"
 func RandomWord() string {
 	return lipsumwords[rand.Intn(len(lipsumwords))]
 }
 
+// RandomPunctuation returns a random punctuation
+// Examples could be "." or "!"
 func RandomPunctuation() string {
 	return punctuation[rand.Intn(len(punctuation))]
 }
 
+// Words returns a string with a list of random lorem ipsum words that is count words long
+// Example when count is 3: "maecenas ornare dapibus"
 func Words(count int) string {
 	if count > 0 {
 		return strings.TrimSpace(RandomWord() + " " + Words(count-1))
@@ -71,10 +83,16 @@ func Words(count int) string {
 	}
 }
 
+// SentenceFragment returns a string of words that could make up part of a sentence
+// Most sentence fragments have at least 3 words
+// But they could be larger, so this function could return up to 13 words in a sentence fragment
+// Example: "non ridiculus integer iaculis iaculis"
 func SentenceFragment() string {
 	return Words(rand.Intn(10) + 3)
 }
 
+// Sentence constructs a full sentence, with fragments connected by commas, capitalization, and proper punctuation.
+// Example: "Non ridiculus integer iaculis iaculis, consectetur dapibus consectetur viverra!"
 func Sentence() string {
 	s := strings.Title(RandomWord()) + " "
 	if rand.Intn(2) == 0 {
@@ -85,6 +103,8 @@ func Sentence() string {
 	return SentenceFragment() + RandomPunctuation()
 }
 
+// Sentences returns a string of count sentences
+// Example with count set to 2: "Non ridiculus integer iaculis iaculis, consectetur dapibus consectetur viverra! Consequat at potenti risus."
 func Sentences(count int) string {
 	if count > 0 {
 		return Sentence() + " " + strings.TrimSpace(Sentences(count-1))
@@ -93,6 +113,9 @@ func Sentences(count int) string {
 	}
 }
 
+// Paragraph returns a series of sentences to reasonably create a paragraph
+// Most paragraphs at least have two sentences
+// A large paragraph could have around 12
 func Paragraph() string {
 	return Sentences(rand.Intn(10) + 2)
 }
