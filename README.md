@@ -2,8 +2,11 @@
 
 Generates logs with randomized lorem ipsum content.
 
+Binaries available in [releases](https://github.com/jdrews/loggenerator/releases). See [usage](https://github.com/jdrews/loggenerator#usage) below.
+
+
 ## Usage ##
-You can use this as a library or as a standalone executable.
+You can use this as a library/package or as a standalone executable.
 
 ### Library Usage ###
 See [generator/generator.go](generator/generator.go) for all the public functions available.
