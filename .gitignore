@@ -23,4 +23,9 @@ go.work
 
 # log files
 *.log
+
+# test files
 /test/
+
+# generated dist files
+/dist/
