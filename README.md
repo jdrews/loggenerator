@@ -15,7 +15,22 @@ Call `loggenerator` with the following flags
 * `--prependlogname` Prepend the name of the logfile to the loglines
 
 ## Building ##
-Just run `go build`
+You can simply run `go build` if building for your local machine. 
+
+loggenerator also uses  [goreleaser](https://github.com/goreleaser/goreleaser) for all releases
+
+To build all targets locally you can run   
+`goreleaser build --snapshot --clean`
+
+## Releasing ##
+
+* Push a tag following [semver](https://semver.org/)
+    * `git tag -a v2.0.0-beta1 -m "Beta release of v2.0.0"`
+    * `git push origin v2.0.0-beta1`
+* Ensure you have an environment variable with `GITHUB_TOKEN="YOUR_GH_TOKEN"` and minimum of `write:packages` permissions
+* Release!
+    * `goreleaser release`
+* Read the [goreleaser quickstart](https://goreleaser.com/quick-start/) for more details
 
 ## History ##
 This tool was created to help test [jdrews/logstation](https://github.com/jdrews/logstation). I needed a way to generate random logs to test out log watching functionality. 
