@@ -31,8 +31,8 @@ func main() {
 	if err != nil {
 		log.Fatalf("failed creating directory path: %s", err)
 	}
-	file, err := os.OpenFile(*logPtr, os.O_CREATE|os.O_WRONLY, 0644)
 
+	file, err := os.OpenFile(*logPtr, os.O_CREATE|os.O_WRONLY, 0644)
 	if err != nil {
 		log.Fatalf("failed creating file: %s", err)
 	}
@@ -42,26 +42,44 @@ func main() {
 	go func() {
 		<-c
 		fmt.Println("\rCtrl+C pressed in Terminal, closing file...")
-		file.Close()
+		err2 := file.Close()
+		if err2 != nil {
+			log.Fatalf("failed closing file on shutdown: %s", err2)
+		}
 		fmt.Println("\rGoodbye!")
 		os.Exit(0)
 	}()
 
-	file.Close()
+	err = file.Close()
+	if err != nil {
+		log.Fatalf("failed closing file on startup: %s", err)
+	}
 
 	// Begin opening file, write line, flush, and close file.
 	i := 0
 	for {
-		file, err := os.OpenFile(*logPtr, os.O_APPEND, 0644)
-
-		if err != nil {
-			log.Fatalf("failed opening file: %s", err)
-			os.Exit(1)
+		openFile, err2 := os.OpenFile(*logPtr, os.O_APPEND, 0644)
+		if err2 != nil {
+			log.Fatalf("failed opening file: %s", err2)
 		}
-		datawriter := bufio.NewWriter(file)
-		datawriter.WriteString(fmt.Sprint(i, ": ", prependStr, " ", generator.LogLine()))
-		datawriter.Flush()
-		file.Close()
+
+		datawriter := bufio.NewWriter(openFile)
+
+		_, err3 := datawriter.WriteString(fmt.Sprint(i, ": ", prependStr, " ", generator.LogLine()))
+		if err3 != nil {
+			log.Fatalf("failed writing string: %s", err3)
+		}
+
+		err4 := datawriter.Flush()
+		if err4 != nil {
+			log.Fatalf("failed flushing file: %s", err4)
+		}
+
+		err5 := openFile.Close()
+		if err5 != nil {
+			log.Fatalf("failed closing file: %s", err5)
+		}
+
 		time.Sleep(time.Duration(*intervalPtr) * time.Millisecond)
 		i++
 	}
