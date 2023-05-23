@@ -41,11 +41,6 @@ var punctuation = []string{".", "?", "!"}
 // var severity = []string{"ERROR", "WARN", "INFO", "DEBUG", "TRACE", ""}
 var severity = []string{"INFO", "DEBUG", "TRACE"} // NOTE: This is the pretty view (everything alright! No problems!)
 
-// Initialize must be called first before using this generator
-func Initialize() {
-	rand.Seed(time.Now().Unix())
-}
-
 // SetPositiveSeveritiesOnly forces the severity level of log lines to not have any errors or warnings
 // This is the pretty view (everything alright! No problems!)
 func SetPositiveSeveritiesOnly() {
@@ -128,7 +123,7 @@ func LogLine() string {
 	return fmt.Sprint("(", time.Now().Format(time.RFC3339), ") [", RandomSeverity(), "] ", Paragraph(), ">>STOP\n")
 }
 
-// LogLine returns a full log line without stop markers at the end
+// LogLineNoStop returns a full log line without stop markers at the end
 // Example: "(2023-05-22T19:58:17-04:00) [INFO] Magna ac pulvinar vehicula conubia interdum."
 func LogLineNoStop() string {
 	return fmt.Sprint("(", time.Now().Format(time.RFC3339), ") [", RandomSeverity(), "] ", Paragraph(), "\n")

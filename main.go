@@ -23,9 +23,6 @@ func main() {
 		prependStr = *logPtr
 	}
 
-	// Initialize the generator
-	generator.Initialize()
-
 	// Prepare file
 	err := os.MkdirAll(filepath.Dir(*logPtr), 0777)
 	if err != nil {
