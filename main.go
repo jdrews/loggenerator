@@ -59,7 +59,7 @@ func main() {
 			os.Exit(1)
 		}
 		datawriter := bufio.NewWriter(file)
-		datawriter.WriteString(fmt.Sprint(i, ": ", prependStr, " (", time.Now().Format(time.RFC3339), ") [", generator.RandomSeverity(), "] ", generator.Paragraph(), ">>STOP\n"))
+		datawriter.WriteString(fmt.Sprint(i, ": ", prependStr, " ", generator.LogLine()))
 		datawriter.Flush()
 		file.Close()
 		time.Sleep(time.Duration(*intervalPtr) * time.Millisecond)

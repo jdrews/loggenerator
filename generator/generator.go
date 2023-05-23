@@ -1,6 +1,7 @@
 package generator
 
 import (
+	"fmt"
 	"math/rand"
 	"strings"
 	"time"
@@ -119,6 +120,18 @@ func Sentences(count int) string {
 // A large paragraph could have around 12 sentences
 func Paragraph() string {
 	return Sentences(rand.Intn(10) + 2)
+}
+
+// LogLine returns a full log line
+// Example: "(2023-05-22T19:58:17-04:00) [INFO] Magna ac pulvinar vehicula conubia interdum.>>STOP"
+func LogLine() string {
+	return fmt.Sprint("(", time.Now().Format(time.RFC3339), ") [", RandomSeverity(), "] ", Paragraph(), ">>STOP\n")
+}
+
+// LogLine returns a full log line without stop markers at the end
+// Example: "(2023-05-22T19:58:17-04:00) [INFO] Magna ac pulvinar vehicula conubia interdum."
+func LogLineNoStop() string {
+	return fmt.Sprint("(", time.Now().Format(time.RFC3339), ") [", RandomSeverity(), "] ", Paragraph(), "\n")
 }
 
 // CapitalizeFirstLetter takes in a string and capitalizes the first letter of the string
