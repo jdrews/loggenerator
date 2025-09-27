@@ -55,7 +55,7 @@ func main() {
 	// Begin opening file, write line, flush, and close file.
 	i := 0
 	for {
-		openFile, err2 := os.OpenFile(*logPtr, os.O_APPEND, 0644)
+		openFile, err2 := os.OpenFile(*logPtr, os.O_APPEND|os.O_WRONLY, 0644)
 		if err2 != nil {
 			log.Fatalf("failed opening file: %s", err2)
 		}
