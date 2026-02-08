@@ -4,13 +4,14 @@ import (
 	"bufio"
 	"flag"
 	"fmt"
-	"github.com/jdrews/loggenerator/generator"
 	"log"
 	"os"
 	"os/signal"
 	"path/filepath"
 	"syscall"
 	"time"
+
+	"github.com/jdrews/loggenerator/generator"
 )
 
 func main() {
@@ -39,10 +40,6 @@ func main() {
 	go func() {
 		<-c
 		fmt.Println("\rCtrl+C pressed in Terminal, closing file...")
-		err2 := file.Close()
-		if err2 != nil {
-			log.Fatalf("failed closing file on shutdown: %s", err2)
-		}
 		fmt.Println("\rGoodbye!")
 		os.Exit(0)
 	}()
